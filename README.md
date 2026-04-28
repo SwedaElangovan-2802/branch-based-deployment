@@ -17,52 +17,88 @@ Deploy containers based on branch (dev / main)
 
 GitHub (push)
    ↓
+
 Webhook (ngrok)
    ↓
+
 Jenkins Pipeline
    ↓
+
 Docker Build
    ↓
+
 Docker Hub Push
    ↓
+
 Auto Deployment (Containers)
 
 ⚙️ Tech Stack
+
 Version Control: Git, GitHub
+
 CI/CD Tool: Jenkins
+
 Containerization: Docker
+
 Registry: Docker Hub
+
 Webhook Exposure: ngrok
+
 OS: Ubuntu VM
+
 🌿 Branch-Based Deployment Strategy
-Branch	Environment	Port	Container
-dev	Testing	8081	test-container
-main	Production	8082	prod-container
+
+Branch	  Environment	     Port	    Container
+dev	     Testing	        8081	    test-container
+main	     Production	     8082	    prod-container
+
+
 🔄 Workflow
+
 Step 1: Developer pushes code
+
 git push origin dev
+
 Step 2: GitHub Webhook triggers Jenkins
+
 
 Webhook URL:
 
 https://<ngrok-url>/github-webhook/
+
 Step 3: Jenkins Pipeline executes
+
 Stages:
 🔹 1. Build
+
 Builds Docker image from Dockerfile
+
 docker build -t swedaelangovan/my-app .
+
 🔹 2. Docker Login
+
 Uses Jenkins credentials securely
+
 🔹 3. Push to Docker Hub
+
 docker push swedaelangovan/my-app
+
 🔹 4. Deploy
+
 For DEV:
+
 docker rm -f test-container || true
+
 docker run -d -p 8081:80 --name test-container swedaelangovan/my-app
+
 For MAIN:
+
 docker rm -f prod-container || true
+
 docker run -d -p 8082:80 --name prod-container swedaelangovan/my-app
+
 📄 Jenkinsfile
+
 pipeline {
     agent any
 
@@ -103,25 +139,42 @@ pipeline {
         }
     }
 }
+
+
 🔐 Credentials Setup
 
 In Jenkins:
 
 Go to:
+
 Manage Jenkins → Credentials
+
 Add:
+
 Kind: Username & Password
+
 ID: docker-creds
+
 Username: Docker Hub username
+
 Password: Docker Hub access token
+
 🌐 Webhook Setup
+
 GitHub:
+
 Go to: Repo → Settings → Webhooks
+
 Add webhook:
+
 Payload URL: https://<ngrok-url>/github-webhook/
+
 Content type: application/json
+
 Events: Just push event
+
 🔗 ngrok Setup
+
 
 Expose Jenkins to GitHub:
 
@@ -129,7 +182,9 @@ ngrok http 8080
 
 Example output:
 
+
 https://abc123.ngrok-free.app → http://localhost:8080
+
 🐳 Docker Hub
 
 Repository:

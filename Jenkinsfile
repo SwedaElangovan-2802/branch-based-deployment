@@ -15,7 +15,7 @@ pipeline {
 
         stage('Deploy Dev') {
             when {
-                branch 'dev'
+                expression { env.GIT_BRANCH == 'origin/dev' }
             }
             steps {
                 sh '''
@@ -27,7 +27,7 @@ pipeline {
 
         stage('Deploy Prod') {
             when {
-                branch 'main'
+                expression { env.GIT_BRANCH == 'origin/main' }
             }
             steps {
                 sh '''
@@ -37,4 +37,4 @@ pipeline {
             }
         }
     }
-}
+    }

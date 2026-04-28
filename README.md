@@ -6,10 +6,15 @@ This project demonstrates a complete CI/CD pipeline that automatically builds, p
 The pipeline is designed to:
 
 Trigger automatically on GitHub push events
+
 Build Docker images using Jenkins
+
 Push images to Docker Hub
+
 Deploy containers based on branch (dev / main)
+
 🏗️ Architecture
+
 GitHub (push)
    ↓
 Webhook (ngrok)
@@ -21,6 +26,7 @@ Docker Build
 Docker Hub Push
    ↓
 Auto Deployment (Containers)
+
 ⚙️ Tech Stack
 Version Control: Git, GitHub
 CI/CD Tool: Jenkins

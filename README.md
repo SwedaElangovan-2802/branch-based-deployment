@@ -1,5 +1,4 @@
-Branch-Based CI/CD Pipeline using Jenkins, Docker & GitHub Webhooks
-📌 Project Overview
+Github branch based deployment
 
 This project demonstrates a complete CI/CD pipeline that automatically builds, pushes, and deploys an application based on Git branch changes.
 

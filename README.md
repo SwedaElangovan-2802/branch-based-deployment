@@ -178,11 +178,18 @@ swedaelangovan/my-app
 
 Tags:
 
-latest Build-specific tags ▶️ How to Run
+latest Build-specific tags 
 
-Start Jenkins sudo systemctl start jenkins
+▶️ How to Run
+
+Start Jenkins -  sudo systemctl start jenkins
+
 Start ngrok ngrok http 8080
-Push code git commit -m "update" git push origin dev
+
+Push code git commit -m "update" 
+
+git push origin dev
+
 Access applications
 Dev:
 

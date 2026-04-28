@@ -3,38 +3,44 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "swedaelangovan/my-app"
+        TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
 
         stage('Build') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE ."
+                sh "docker build -t $DOCKER_IMAGE:$TAG ."
+                sh "docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest"
             }
         }
 
-        stage('Deploy Dev') {
-            when {
-                expression { env.GIT_BRANCH == 'origin/dev' }
-            }
+        stage('Docker Login') {
             steps {
-                sh '''
-                docker rm -f test-container || true
-                docker run -d -p 8081:80 --name test-container swedaelangovan2802/my-app
-                '''
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-creds',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                }
             }
         }
 
-        stage('Deploy Prod') {
-            when {
-                expression { env.GIT_BRANCH == 'origin/main' }
+        stage('Push') {
+            steps {
+                sh "docker push $DOCKER_IMAGE:$TAG"
+                sh "docker push $DOCKER_IMAGE:latest"
             }
+        }
+
+        stage('Deploy') {
             steps {
                 sh '''
                 docker rm -f prod-container || true
-                docker run -d -p 8082:80 --name prod-container swedaelangovan2802/my-app
+                docker run -d -p 8082:80 --name prod-container swedaelangovan/my-app:latest
                 '''
             }
         }
     }
-    }
+}

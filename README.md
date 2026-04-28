@@ -181,14 +181,14 @@ Tags:
 latest Build-specific tags 
 
 ▶️ How to Run
-
-Start Jenkins -  sudo systemctl start jenkins
-
-Start ngrok ngrok http 8080
-
-Push code git commit -m "update" 
-
+1. Start Jenkins
+sudo systemctl start jenkins
+2. Start ngrok
+ngrok http 8080
+3. Push code
+git commit -m "update"
 git push origin dev
+4. Access applications
 
 Access applications
 Dev:
